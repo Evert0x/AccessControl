@@ -7,13 +7,10 @@ import "@openzeppelin/contracts/utils/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "./storage/LibAccessStorage.sol";
 import "./interfaces/IAccessControl.sol";
-import "./AccessControlMemberIDInternal.sol";
+import "./AccessControlLib.sol";
 import "./RelayReceiver.sol";
 
-contract AccessControlMemberID is
-    AccessControlMemberIDInternal,
-    IAccessControl
-{
+contract AccessControl is AccessControlLib, IAccessControl {
     using EnumerableSet for EnumerableSet.AddressSet;
     using Address for address;
 

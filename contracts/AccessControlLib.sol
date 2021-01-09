@@ -9,7 +9,7 @@ import "./storage/LibAccessStorage.sol";
 import "./RelayReceiver.sol";
 import "./interfaces/IAccessControlEvents.sol";
 
-contract AccessControlMemberIDInternal is IAccessControlEvents, RelayReceiver {
+contract AccessControlLib is IAccessControlEvents, RelayReceiver {
     using EnumerableSet for EnumerableSet.AddressSet;
     using Address for address;
 
