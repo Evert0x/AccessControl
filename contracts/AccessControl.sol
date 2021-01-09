@@ -23,7 +23,7 @@ contract AccessControl is IAccessControl, RelayReceiver {
     }
 
     function getRoleMemberCount(bytes32 role)
-        external
+        public
         override
         view
         returns (uint256)
@@ -32,7 +32,7 @@ contract AccessControl is IAccessControl, RelayReceiver {
     }
 
     function getRoleMember(bytes32 role, uint256 index)
-        external
+        public
         override
         view
         returns (address)
@@ -41,7 +41,7 @@ contract AccessControl is IAccessControl, RelayReceiver {
     }
 
     function getRoleAdmin(bytes32 role)
-        external
+        public
         override
         view
         returns (bytes32)
