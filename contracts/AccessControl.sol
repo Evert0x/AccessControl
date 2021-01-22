@@ -8,8 +8,9 @@ import "@openzeppelin/contracts/utils/Address.sol";
 import "./storage/LibAccessStorage.sol";
 import "./interfaces/IAccessControl.sol";
 import "./RelayReceiver.sol";
+import "./AccessControlView.sol";
 
-contract AccessControl is IAccessControl, RelayReceiver {
+contract AccessControl is IAccessControl, RelayReceiver, AccessControlView {
     using EnumerableSet for EnumerableSet.AddressSet;
     using Address for address;
 
@@ -40,12 +41,7 @@ contract AccessControl is IAccessControl, RelayReceiver {
         return LibAccessStorage.roleStorage().roles[role].members.at(index);
     }
 
-    function getRoleAdmin(bytes32 role)
-        public
-        override
-        view
-        returns (bytes32)
-    {
+    function getRoleAdmin(bytes32 role) public override view returns (bytes32) {
         return LibAccessStorage.roleStorage().roles[role].adminRole;
     }
 
@@ -77,47 +73,5 @@ contract AccessControl is IAccessControl, RelayReceiver {
             "AccessControl: can only renounce roles for self"
         );
         _revokeRole(role, account);
-    }
-
-    function _hasRole(bytes32 role, address account)
-        internal
-        virtual
-        view
-        returns (bool)
-    {
-        LibAccessStorage.RoleStorage storage rs = LibAccessStorage
-            .roleStorage();
-
-        return rs.roles[role].members.contains(account);
-    }
-
-    function _setupRole(bytes32 role, address account) internal virtual {
-        _grantRole(role, account);
-    }
-
-    function _setRoleAdmin(bytes32 role, bytes32 adminRole) internal virtual {
-        LibAccessStorage.RoleStorage storage rs = LibAccessStorage
-            .roleStorage();
-
-        emit RoleAdminChanged(role, rs.roles[role].adminRole, adminRole);
-        rs.roles[role].adminRole = adminRole;
-    }
-
-    function _grantRole(bytes32 role, address account) internal virtual {
-        LibAccessStorage.RoleStorage storage rs = LibAccessStorage
-            .roleStorage();
-
-        if (rs.roles[role].members.add(account)) {
-            emit RoleGranted(role, account, _msgSender());
-        }
-    }
-
-    function _revokeRole(bytes32 role, address account) internal virtual {
-        LibAccessStorage.RoleStorage storage rs = LibAccessStorage
-            .roleStorage();
-
-        if (rs.roles[role].members.remove(account)) {
-            emit RoleRevoked(role, account, _msgSender());
-        }
     }
 }
